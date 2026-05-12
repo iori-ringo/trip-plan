@@ -4,6 +4,8 @@ node_modules/
 # Build outputs
 /dist/
 /build/
+/.next/
+tsconfig.tsbuildinfo
 
 # Env
 .env
@@ -22,3 +24,4 @@ pnpm-debug.log*
 coverage/
 .vite/
 .turbo/
+.vercel

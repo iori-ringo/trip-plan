@@ -1,0 +1,1645 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=Noto+Serif+JP:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  background: #160e08;
+  --font-playfair: "Playfair Display";
+  --font-cormorant: "Cormorant Garamond";
+  --font-noto-serif-jp: "Noto Serif JP";
+  --font-noto-sans-jp: "Noto Sans JP";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  position: relative;
+  scroll-behavior: smooth;
+  background: #160e08;
+}
+
+body {
+  position: relative;
+  min-width: 320px;
+  margin: 0;
+  background: #160e08;
+}
+
+::selection {
+  background: rgba(214, 164, 81, 0.34);
+  color: #fff8e9;
+}
+
+.lp-shell {
+  position: relative;
+  isolation: isolate;
+  background: #160e08;
+}
+
+.page-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 24;
+  width: 100%;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(213, 164, 81, 0), rgba(229, 190, 117, 0.88), rgba(255, 239, 195, 0.72));
+  box-shadow: 0 0 18px rgba(213, 164, 81, 0.22);
+  transform-origin: 0 50%;
+}
+
+.experience-nav {
+  --nav-label-color: rgba(243, 229, 203, 0.66);
+  --nav-index-color: rgba(215, 170, 94, 0.84);
+  --nav-hover-color: rgba(255, 245, 224, 0.98);
+  --nav-rule-color: rgba(215, 170, 94, 0.38);
+  --nav-text-shadow: 0 1px 10px rgba(14, 8, 4, 0.32);
+  position: fixed;
+  right: 1.75rem;
+  top: 50%;
+  z-index: 16;
+  display: none;
+  isolation: isolate;
+  transform: translateY(-50%);
+  transition:
+    filter 360ms ease,
+    opacity 360ms ease;
+}
+
+.experience-nav-light,
+.experience-nav-link-light {
+  --nav-label-color: rgba(46, 31, 20, 0.74);
+  --nav-index-color: rgba(145, 101, 44, 0.88);
+  --nav-hover-color: rgba(25, 16, 10, 0.98);
+  --nav-rule-color: rgba(145, 101, 44, 0.42);
+  --nav-text-shadow: 0 1px 0 rgba(255, 250, 238, 0.64), 0 10px 22px rgba(80, 55, 31, 0.16);
+}
+
+.experience-nav-dark,
+.experience-nav-link-dark {
+  --nav-label-color: rgba(243, 229, 203, 0.66);
+  --nav-index-color: rgba(215, 170, 94, 0.84);
+  --nav-hover-color: rgba(255, 245, 224, 0.98);
+  --nav-rule-color: rgba(215, 170, 94, 0.38);
+  --nav-text-shadow: 0 1px 10px rgba(14, 8, 4, 0.32);
+}
+
+.experience-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 8.5rem;
+  padding-block: 0.42rem;
+  color: var(--nav-label-color);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  text-shadow: var(--nav-text-shadow);
+  text-transform: uppercase;
+  transition:
+    color 260ms ease,
+    text-shadow 360ms ease,
+    transform 260ms ease;
+}
+
+.experience-nav a span:first-child {
+  color: var(--nav-index-color);
+  font-family: var(--font-playfair), serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  transition: color 360ms ease;
+}
+
+.experience-nav a::before {
+  position: absolute;
+  right: 100%;
+  width: 1.2rem;
+  height: 1px;
+  content: "";
+  background: var(--nav-rule-color);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition:
+    background 360ms ease,
+    transform 260ms ease;
+}
+
+.experience-nav a:hover {
+  color: var(--nav-hover-color);
+  transform: translateX(-4px);
+}
+
+.experience-nav a:hover::before {
+  transform: scaleX(1);
+}
+
+.lp-shell::before {
+  position: fixed;
+  inset: 0;
+  z-index: 18;
+  pointer-events: none;
+  content: "";
+  opacity: 0.1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 38px 38px, 38px 38px;
+  mix-blend-mode: overlay;
+}
+
+.dust-field {
+  z-index: 17;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.dust-particle {
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(245, 218, 166, 0.74);
+  filter: blur(0.3px);
+  animation: dustFloat var(--dust-duration) ease-in-out var(--dust-delay) infinite;
+  will-change: transform, opacity;
+}
+
+.hero-sun {
+  background:
+    radial-gradient(circle at 34% 36%, rgba(255, 221, 165, 0.62), rgba(227, 143, 57, 0.27) 32%, transparent 66%);
+  filter: blur(34px);
+  mix-blend-mode: screen;
+}
+
+.hero-beams {
+  pointer-events: none;
+  opacity: 0.72;
+  background:
+    linear-gradient(112deg, transparent 38%, rgba(255, 211, 142, 0.18) 55%, transparent 69%),
+    linear-gradient(102deg, transparent 48%, rgba(255, 236, 191, 0.1) 61%, transparent 72%),
+    radial-gradient(circle at 86% 8%, rgba(250, 184, 98, 0.42), transparent 34%);
+  animation: beamBreath 9s ease-in-out infinite;
+}
+
+.sunlight-shafts {
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.62;
+  background:
+    linear-gradient(116deg, transparent 45%, rgba(255, 222, 162, 0.18) 58%, transparent 68%),
+    linear-gradient(109deg, transparent 52%, rgba(255, 244, 207, 0.1) 63%, transparent 72%);
+  filter: blur(0.4px);
+  mix-blend-mode: screen;
+  animation: sunlightDrift 12s ease-in-out infinite;
+}
+
+.hero-glass-glint {
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    linear-gradient(102deg, transparent 58%, rgba(255, 255, 255, 0.0) 62%, rgba(255, 240, 205, 0.28) 65%, transparent 69%);
+  mix-blend-mode: screen;
+  transform: translateX(-18%);
+  animation: glintTravel 7.8s ease-in-out infinite;
+}
+
+.hero-stage {
+  transform-style: preserve-3d;
+}
+
+.hero-photo-layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #100905;
+  transform-origin: 70% 76%;
+  will-change: transform, opacity;
+}
+
+.hero-photo-layer::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(18, 9, 4, 0.82) 0%, rgba(18, 9, 4, 0.54) 34%, rgba(18, 9, 4, 0.08) 67%),
+    linear-gradient(180deg, rgba(18, 9, 4, 0.08) 0%, transparent 46%, rgba(18, 9, 4, 0.22) 100%);
+  pointer-events: none;
+}
+
+.hero-photo-layer::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  content: "";
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 75% 56%, rgba(255, 226, 162, 0.16), transparent 16%),
+    linear-gradient(180deg, transparent 55%, rgba(7, 6, 4, 0.18));
+  mix-blend-mode: screen;
+}
+
+.hero-photo {
+  object-fit: cover;
+  object-position: center bottom;
+  opacity: 1;
+  filter: saturate(1.04) contrast(1.02);
+}
+
+.hero-photo-backdrop {
+  z-index: 0;
+  opacity: 0.88;
+  filter: saturate(1.08) contrast(1.05) brightness(0.82);
+  transform: scale(1.035);
+}
+
+.hero-photo-zoom {
+  position: absolute;
+  inset: -9%;
+  z-index: 0;
+  transform-origin: 70% 76%;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero-moss-depth {
+  position: absolute;
+  right: -4%;
+  bottom: -1%;
+  left: -4%;
+  z-index: 2;
+  height: 18%;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent, rgba(11, 14, 6, 0.44) 48%, rgba(9, 11, 5, 0.84)),
+    radial-gradient(ellipse at 24% 100%, rgba(123, 111, 30, 0.24), transparent 38%);
+  mix-blend-mode: multiply;
+}
+
+.hero-microcopy {
+  position: absolute;
+  top: 4.4rem;
+  right: 4.4rem;
+  z-index: 3;
+  color: rgba(243, 226, 194, 0.7);
+  font-size: 0.72rem;
+  letter-spacing: 0.17em;
+  line-height: 1.8;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.hero-microcopy span {
+  display: block;
+}
+
+.scroll-cue {
+  position: absolute;
+  right: 2.15rem;
+  bottom: 2.2rem;
+  z-index: 7;
+  display: none;
+  align-items: center;
+  gap: 0.82rem;
+  color: rgba(239, 217, 178, 0.68);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.scroll-cue i {
+  display: block;
+  width: 1px;
+  height: 3.8rem;
+  background: linear-gradient(180deg, rgba(228, 184, 109, 0), rgba(228, 184, 109, 0.92), rgba(228, 184, 109, 0));
+  transform-origin: 50% 0;
+}
+
+.luxury-button {
+  position: relative;
+  display: inline-flex;
+  min-width: 14.2rem;
+  min-height: 3.35rem;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(221, 182, 112, 0.78);
+  color: #f0e1c2;
+  background: rgba(31, 18, 10, 0.2);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  isolation: isolate;
+  transition:
+    border-color 280ms ease,
+    color 280ms ease,
+    background 280ms ease;
+}
+
+.luxury-button::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(100deg, transparent, rgba(222, 177, 98, 0.7), transparent);
+  transform: translateX(-110%);
+  transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-button::after {
+  position: absolute;
+  inset: 1px;
+  z-index: -2;
+  content: "";
+  background: linear-gradient(90deg, rgba(70, 39, 17, 0.24), rgba(13, 9, 6, 0.36));
+}
+
+.luxury-button-filled {
+  border-color: rgba(232, 186, 104, 0.88);
+  color: #fff6e5;
+  background: linear-gradient(92deg, rgba(202, 148, 63, 0.92), rgba(224, 180, 99, 0.76));
+}
+
+.luxury-button:hover {
+  border-color: rgba(244, 218, 163, 0.98);
+  color: #fff7e7;
+}
+
+.luxury-button:hover::before {
+  transform: translateX(110%);
+}
+
+.perfume-bottle {
+  --bottle-width: 19rem;
+  position: relative;
+  width: var(--bottle-width);
+  height: calc(var(--bottle-width) * 1.36);
+  margin-inline: auto;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 34px 38px rgba(20, 10, 4, 0.38));
+}
+
+.perfume-bottle-hero {
+  --bottle-width: min(22rem, 48vw);
+}
+
+.perfume-bottle-hero .bottle-label {
+  top: 28%;
+}
+
+.perfume-bottle-detail {
+  --bottle-width: min(18rem, 46vw);
+}
+
+.perfume-bottle-mini {
+  --bottle-width: min(8.4rem, 26vw);
+}
+
+.bottle-cap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 4;
+  width: 42%;
+  height: 30%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 49% 49% 27% 27% / 38% 38% 15% 15%;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(255, 255, 255, 0.88), transparent 6%),
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.2), transparent 18%),
+    linear-gradient(112deg, #050403 4%, #161310 45%, #010101 92%);
+  box-shadow:
+    inset 9px 0 16px rgba(255, 255, 255, 0.08),
+    inset -15px -6px 22px rgba(0, 0, 0, 0.74),
+    0 13px 18px rgba(0, 0, 0, 0.42);
+  transform: translateX(-50%);
+}
+
+.cap-highlight {
+  position: absolute;
+  inset: 7% 16% 6% 58%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.84), transparent);
+  filter: blur(2px);
+  opacity: 0.58;
+  transform: rotate(10deg) translateX(-40%);
+  animation: capSweep 7.6s ease-in-out infinite;
+}
+
+.bottle-neck {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  z-index: 3;
+  width: 26%;
+  height: 12%;
+  border: 1px solid rgba(255, 244, 218, 0.28);
+  border-bottom: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(205, 137, 45, 0.34), rgba(255, 255, 255, 0.2)),
+    rgba(101, 57, 16, 0.28);
+  transform: translateX(-50%);
+}
+
+.bottle-glass {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 2;
+  width: 74%;
+  height: 71%;
+  overflow: hidden;
+  border: 1px solid rgba(255, 238, 197, 0.42);
+  border-radius: 8% 8% 6% 6% / 10% 10% 5% 5%;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.34), transparent 11%, rgba(255, 255, 255, 0.08) 48%, rgba(255, 255, 255, 0.32) 91%, transparent),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(114, 62, 14, 0.18) 42%, rgba(255, 255, 255, 0.13));
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.48),
+    inset 8px 0 14px rgba(255, 255, 255, 0.16),
+    inset -8px 0 16px rgba(255, 255, 255, 0.12),
+    0 26px 34px rgba(0, 0, 0, 0.28);
+  transform: translateX(-50%);
+}
+
+.bottle-glass::before {
+  position: absolute;
+  top: 1.5%;
+  left: 6%;
+  width: 88%;
+  height: 9%;
+  content: "";
+  border: 1px solid rgba(255, 238, 202, 0.54);
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+}
+
+.glass-edge {
+  position: absolute;
+  top: 8%;
+  bottom: 4%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.42);
+  filter: blur(0.2px);
+}
+
+.glass-edge-left {
+  left: 9%;
+}
+
+.glass-edge-right {
+  right: 9%;
+}
+
+.glass-shine {
+  position: absolute;
+  inset: -8% 74% -8% 12%;
+  z-index: 4;
+  background: linear-gradient(92deg, transparent, rgba(255, 255, 255, 0.66), transparent);
+  filter: blur(1px);
+  transform: skewX(-12deg) translateX(-120%);
+  animation: glassShimmer 8.8s ease-in-out infinite;
+}
+
+.liquid-glow {
+  position: absolute;
+  inset: 36% 7% 11%;
+  z-index: 1;
+  background: radial-gradient(circle at 64% 30%, rgba(255, 204, 101, 0.62), transparent 44%);
+  filter: blur(10px);
+  opacity: 0.74;
+  animation: liquidBreath 6.4s ease-in-out infinite;
+}
+
+.amber-liquid {
+  position: absolute;
+  right: 7%;
+  bottom: 10%;
+  left: 7%;
+  z-index: 1;
+  height: 54%;
+  border-radius: 0 0 8% 8%;
+  background:
+    radial-gradient(circle at 72% 22%, rgba(255, 223, 128, 0.5), transparent 26%),
+    linear-gradient(180deg, rgba(203, 121, 19, 0.78), rgba(111, 54, 11, 0.6));
+  opacity: 0.82;
+}
+
+.bottle-label {
+  position: absolute;
+  top: 33%;
+  left: 50%;
+  z-index: 5;
+  display: flex;
+  width: 76%;
+  height: 43%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 11%;
+  border: 1px solid rgba(70, 54, 38, 0.18);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.8), transparent 56%),
+    #eee4d2;
+  color: #14110d;
+  transform: translateX(-50%);
+}
+
+.label-brand {
+  font-size: calc(var(--bottle-width) * 0.037);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.label-name {
+  font-size: calc(var(--bottle-width) * 0.047);
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.label-type {
+  font-size: calc(var(--bottle-width) * 0.017);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.bottle-base {
+  position: absolute;
+  right: 7%;
+  bottom: 2.5%;
+  left: 7%;
+  z-index: 6;
+  height: 10%;
+  border: 1px solid rgba(255, 238, 205, 0.48);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.28), transparent, rgba(255, 255, 255, 0.38)),
+    rgba(255, 255, 255, 0.08);
+}
+
+.driftwood {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: polygon(1% 60%, 10% 46%, 24% 39%, 41% 47%, 58% 40%, 74% 48%, 98% 38%, 100% 65%, 79% 76%, 55% 72%, 35% 80%, 15% 72%);
+  border-radius: 46% 52% 40% 44%;
+  background:
+    radial-gradient(ellipse at 19% 46%, rgba(252, 191, 91, 0.42), transparent 11%),
+    radial-gradient(ellipse at 62% 54%, rgba(40, 20, 8, 0.55), transparent 10%),
+    linear-gradient(166deg, rgba(112, 61, 25, 0.86), rgba(196, 125, 49, 0.88) 30%, rgba(83, 42, 17, 0.92) 74%),
+    repeating-linear-gradient(8deg, rgba(255, 224, 166, 0.13) 0 2px, rgba(64, 32, 13, 0.2) 2px 7px);
+  box-shadow:
+    inset 0 28px 36px rgba(255, 224, 168, 0.2),
+    inset 0 -28px 34px rgba(22, 10, 4, 0.52),
+    0 28px 48px rgba(0, 0, 0, 0.44);
+  transform: rotate(-2.4deg);
+}
+
+.wood-ridge,
+.wood-knot,
+.wood-splinter {
+  position: absolute;
+  display: block;
+}
+
+.wood-ridge {
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(48, 23, 9, 0.5);
+  filter: blur(0.25px);
+}
+
+.wood-ridge-one {
+  top: 45%;
+  left: 12%;
+  width: 45%;
+  transform: rotate(4deg);
+}
+
+.wood-ridge-two {
+  top: 58%;
+  left: 34%;
+  width: 53%;
+  transform: rotate(-5deg);
+}
+
+.wood-ridge-three {
+  top: 66%;
+  left: 6%;
+  width: 25%;
+  transform: rotate(7deg);
+}
+
+.wood-knot {
+  border-radius: 50%;
+  border: 3px solid rgba(42, 20, 8, 0.52);
+  background: radial-gradient(circle, rgba(34, 17, 7, 0.72), rgba(124, 70, 31, 0.4));
+}
+
+.wood-knot-one {
+  top: 52%;
+  right: 17%;
+  width: 7.5%;
+  height: 17%;
+}
+
+.wood-knot-two {
+  top: 45%;
+  left: 28%;
+  width: 6%;
+  height: 13%;
+}
+
+.wood-splinter {
+  background: rgba(241, 184, 94, 0.35);
+  clip-path: polygon(0 50%, 100% 0, 84% 100%);
+}
+
+.wood-splinter-one {
+  top: 31%;
+  left: 11%;
+  width: 17%;
+  height: 21%;
+}
+
+.wood-splinter-two {
+  top: 36%;
+  right: 6%;
+  width: 18%;
+  height: 26%;
+  transform: rotate(-12deg);
+}
+
+.moss-bed {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 28% 40%, rgba(166, 148, 37, 0.26), transparent 27%),
+    radial-gradient(ellipse at 74% 52%, rgba(120, 107, 29, 0.25), transparent 30%),
+    linear-gradient(180deg, transparent, rgba(7, 15, 6, 0.96) 82%);
+  filter: saturate(0.94);
+}
+
+.moss-bed::before {
+  position: absolute;
+  inset: 15% -5% -8%;
+  content: "";
+  background:
+    repeating-linear-gradient(94deg, rgba(108, 101, 28, 0.25) 0 3px, transparent 3px 9px),
+    radial-gradient(ellipse at 50% 100%, rgba(16, 27, 10, 0.96), transparent 70%);
+  filter: blur(1px);
+}
+
+.moss-bed-soft {
+  opacity: 0.72;
+}
+
+.moss-tuft {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border-radius: 70% 70% 0 0;
+  background: linear-gradient(180deg, #8a842c, #2b3a10 74%, #101705);
+  box-shadow: 0 0 10px rgba(211, 166, 56, 0.12);
+  transform-origin: 50% 100%;
+  animation: mossSway 5.8s ease-in-out var(--tuft-delay) infinite;
+}
+
+.concept-rock {
+  position: absolute;
+  display: block;
+  background:
+    radial-gradient(circle at 32% 23%, rgba(255, 241, 210, 0.55), transparent 26%),
+    repeating-linear-gradient(112deg, rgba(58, 44, 29, 0.18) 0 2px, transparent 2px 9px),
+    linear-gradient(135deg, #d1bd9b, #8a6b4a 62%, #3e2918);
+  box-shadow: 0 30px 60px rgba(59, 41, 25, 0.24);
+}
+
+.concept-rock-back {
+  top: 1%;
+  right: 2%;
+  width: 47%;
+  height: 112%;
+  clip-path: polygon(35% 0, 100% 0, 94% 100%, 8% 100%, 0 34%);
+  opacity: 0.82;
+}
+
+.concept-rock-front {
+  right: 18%;
+  bottom: -18%;
+  width: 51%;
+  height: 82%;
+  clip-path: polygon(10% 12%, 100% 0, 86% 92%, 0 100%);
+}
+
+.seed-branch {
+  position: absolute;
+  top: 12%;
+  left: 45%;
+  width: 1px;
+  height: 21rem;
+  background: linear-gradient(180deg, #6b4726, #2c1d12);
+  transform-origin: 50% 100%;
+  box-shadow: 18px 18px 22px rgba(34, 25, 15, 0.24);
+}
+
+.seed-branch span {
+  position: absolute;
+  width: 0.84rem;
+  height: 1.45rem;
+  border-radius: 999px 999px 999px 0;
+  background: radial-gradient(circle at 38% 28%, #d6ab64, #3b2514 74%);
+  transform-origin: 0 100%;
+}
+
+.seed-branch span:nth-child(1) {
+  top: 6%;
+  left: -0.8rem;
+  transform: rotate(-46deg);
+}
+
+.seed-branch span:nth-child(2) {
+  top: 18%;
+  left: 0.12rem;
+  transform: rotate(42deg);
+}
+
+.seed-branch span:nth-child(3) {
+  top: 31%;
+  left: -0.86rem;
+  transform: rotate(-54deg);
+}
+
+.seed-branch span:nth-child(4) {
+  top: 44%;
+  left: 0.1rem;
+  transform: rotate(45deg);
+}
+
+.seed-branch span:nth-child(5) {
+  top: 58%;
+  left: -0.72rem;
+  transform: rotate(-47deg);
+}
+
+.concept-shadow {
+  position: absolute;
+  z-index: 2;
+  top: 20%;
+  left: 33%;
+  width: 18rem;
+  height: 18rem;
+  background:
+    linear-gradient(78deg, transparent 42%, rgba(31, 23, 15, 0.28) 43% 45%, transparent 47%),
+    radial-gradient(ellipse at 45% 20%, rgba(31, 23, 15, 0.18), transparent 24%);
+  filter: blur(1px);
+}
+
+.photo-panel {
+  position: relative;
+  border-radius: 2px;
+  transform: translateZ(0);
+}
+
+.photo-panel::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.photo-panel-image {
+  object-fit: cover;
+}
+
+.concept-photo-panel {
+  box-shadow: 0 30px 70px rgba(78, 52, 25, 0.11);
+}
+
+.concept-photo-panel::after {
+  background:
+    linear-gradient(90deg, rgba(238, 230, 215, 0.52), transparent 38%),
+    radial-gradient(circle at 82% 18%, rgba(255, 248, 226, 0.32), transparent 34%);
+}
+
+.concept-photo {
+  object-position: center center;
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.concept-scent-orbit {
+  position: absolute;
+  z-index: 0;
+  border: 1px solid rgba(187, 139, 66, 0.16);
+  border-radius: 50%;
+  transform: rotate(-18deg);
+  animation: causticMove 10s ease-in-out infinite;
+}
+
+.concept-scent-orbit-one {
+  right: 12%;
+  bottom: 5%;
+  width: 24rem;
+  height: 10rem;
+}
+
+.concept-scent-orbit-two {
+  top: 20%;
+  right: 28%;
+  width: 16rem;
+  height: 7rem;
+  animation-delay: -3.4s;
+}
+
+.notes-trail-word {
+  position: absolute;
+  top: 50%;
+  left: -3%;
+  z-index: 0;
+  width: 106%;
+  color: rgba(216, 171, 96, 0.035);
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(4.6rem, 14vw, 13rem);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.note-card {
+  border: 1px solid rgba(201, 154, 76, 0.32);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(211, 164, 82, 0.11), transparent 38%),
+    rgba(15, 24, 14, 0.58);
+  background-clip: padding-box;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    border-color 300ms ease,
+    background 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.note-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  opacity: 0;
+  background: radial-gradient(circle at 50% 18%, rgba(219, 166, 82, 0.18), transparent 54%);
+  transition: opacity 320ms ease;
+}
+
+.note-card:hover::before {
+  opacity: 1;
+}
+
+.note-card:hover {
+  border-color: rgba(226, 180, 98, 0.5);
+}
+
+.note-icon-shell {
+  position: relative;
+  color: #d8aa61;
+  isolation: isolate;
+}
+
+.note-icon-shell::before {
+  position: absolute;
+  inset: 0.22rem;
+  z-index: -1;
+  content: "";
+  border: 1px solid rgba(221, 178, 102, 0.2);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 42% 28%, rgba(255, 235, 181, 0.22), transparent 34%),
+    radial-gradient(circle at 62% 72%, rgba(172, 117, 50, 0.14), transparent 44%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 244, 209, 0.08),
+    0 10px 28px rgba(5, 9, 5, 0.2);
+  transform: scale(0.96);
+  transition:
+    border-color 300ms ease,
+    opacity 300ms ease,
+    transform 300ms ease;
+}
+
+.note-icon-shell::after {
+  position: absolute;
+  top: 16%;
+  left: 18%;
+  width: 42%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 240, 185, 0.62), transparent);
+  opacity: 0.55;
+  transform: rotate(-28deg);
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
+}
+
+.note-card:hover .note-icon-shell::before {
+  border-color: rgba(236, 193, 113, 0.28);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.note-card:hover .note-icon-shell::after {
+  opacity: 0.86;
+  transform: translate3d(8px, 2px, 0) rotate(-28deg);
+}
+
+.rich-note-icon {
+  width: 5.25rem;
+  height: 5.25rem;
+  overflow: visible;
+  filter:
+    drop-shadow(0 1px 0 rgba(255, 244, 211, 0.14))
+    drop-shadow(0 8px 14px rgba(5, 8, 4, 0.26))
+    drop-shadow(0 0 10px rgba(212, 160, 76, 0.1));
+}
+
+.gold-stroke {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.gold-stroke.fine {
+  stroke-width: 1.55;
+}
+
+.gold-stroke.muted {
+  opacity: 0.7;
+}
+
+.gold-dot {
+  filter: drop-shadow(0 0 5px rgba(229, 178, 94, 0.24));
+}
+
+.note-icon-halo {
+  opacity: 0.95;
+  transform-origin: 50% 50%;
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
+}
+
+.note-card:hover .note-icon-halo {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.note-line {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  background: linear-gradient(90deg, rgba(201, 154, 76, 0.18), rgba(245, 211, 140, 0.66), rgba(201, 154, 76, 0.18));
+  pointer-events: none;
+}
+
+.note-line-top,
+.note-line-bottom {
+  left: 0;
+  width: 100%;
+  height: 1px;
+  transform-origin: 0 50%;
+}
+
+.note-line-top {
+  top: 0;
+}
+
+.note-line-bottom {
+  bottom: 0;
+}
+
+.note-line-left,
+.note-line-right {
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(201, 154, 76, 0.18), rgba(245, 211, 140, 0.56), rgba(201, 154, 76, 0.18));
+  transform-origin: 50% 0;
+}
+
+.note-line-left {
+  left: 0;
+}
+
+.note-line-right {
+  right: 0;
+}
+
+.story-visual {
+  position: relative;
+  box-shadow: inset 42px 0 58px rgba(239, 232, 220, 0.62);
+  transform-origin: 72% 50%;
+}
+
+.story-photo-motion {
+  position: absolute;
+  inset: -8% -4%;
+  will-change: transform;
+}
+
+.story-photo {
+  object-position: center center;
+  filter: saturate(1.02) contrast(1.04);
+}
+
+.story-glass {
+  position: absolute;
+  inset: -8% 6% -10% 10%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 46% 45%, rgba(255, 226, 162, 0.68), transparent 13%),
+    radial-gradient(circle at 57% 48%, rgba(209, 122, 35, 0.38), transparent 34%),
+    linear-gradient(135deg, rgba(255, 245, 216, 0.16), rgba(111, 60, 17, 0.34));
+  filter: saturate(1.04);
+}
+
+.story-glass::before {
+  position: absolute;
+  inset: 12% 19% 15% 9%;
+  content: "";
+  border: 1px solid rgba(255, 240, 202, 0.38);
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%, rgba(255, 231, 171, 0.2) 0 1px, transparent 1px 12px),
+    radial-gradient(circle at 40% 58%, rgba(255, 216, 132, 0.38), transparent 34%);
+  filter: blur(0.2px);
+  animation: causticMove 8.5s ease-in-out infinite;
+}
+
+.caustic {
+  position: absolute;
+  display: block;
+  border: 1px solid rgba(255, 222, 148, 0.42);
+  border-radius: 48%;
+  mix-blend-mode: screen;
+  animation: causticMove 7.4s ease-in-out infinite;
+}
+
+.caustic-one {
+  top: 32%;
+  left: 18%;
+  width: 23%;
+  height: 18%;
+}
+
+.caustic-two {
+  right: 30%;
+  bottom: 25%;
+  width: 28%;
+  height: 20%;
+  animation-delay: -2s;
+}
+
+.caustic-three {
+  top: 18%;
+  right: 17%;
+  width: 16%;
+  height: 11%;
+  animation-delay: -3.2s;
+}
+
+.story-wood-close {
+  position: absolute;
+  top: -8%;
+  right: -8%;
+  bottom: -12%;
+  width: 52%;
+  clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%, 9% 54%);
+  background:
+    radial-gradient(ellipse at 24% 52%, rgba(255, 220, 150, 0.23), transparent 13%),
+    repeating-linear-gradient(101deg, rgba(253, 214, 149, 0.17) 0 2px, rgba(31, 17, 9, 0.28) 2px 8px),
+    linear-gradient(100deg, #6c3d18, #2d170b 54%, #120b07);
+  box-shadow: inset 30px 0 42px rgba(255, 202, 115, 0.14);
+}
+
+.story-amber-haze {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 66% 28%, rgba(255, 223, 162, 0.35), transparent 14%),
+    linear-gradient(90deg, rgba(239, 232, 220, 0.92), rgba(239, 232, 220, 0.52) 30%, transparent 56%);
+  pointer-events: none;
+}
+
+.product-scene {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.product-photo-scene {
+  overflow: hidden;
+  border-radius: 2px;
+  background: #f2eadf;
+}
+
+.product-photo-scene::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0%, transparent 55%, rgba(242, 234, 223, 0.62) 100%),
+    linear-gradient(180deg, transparent 72%, rgba(242, 234, 223, 0.42) 100%);
+}
+
+.product-photo {
+  object-fit: cover;
+  object-position: left center;
+  filter: saturate(0.98) contrast(1.01);
+}
+
+.product-scene::before {
+  position: absolute;
+  inset: 9% 7% 4%;
+  z-index: -1;
+  content: "";
+  border-radius: 50%;
+  background: radial-gradient(circle at 55% 55%, rgba(215, 162, 79, 0.22), transparent 48%);
+  filter: blur(20px);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.product-scene:hover::before {
+  opacity: 1;
+}
+
+.product-bottle-large {
+  position: absolute;
+  bottom: 11%;
+  left: 28%;
+  transform: translateX(-50%);
+}
+
+.product-bottle-small {
+  position: absolute;
+  right: 22%;
+  bottom: 13%;
+}
+
+.product-reflection {
+  position: absolute;
+  z-index: 1;
+  right: 13%;
+  bottom: 4%;
+  left: 16%;
+  height: 13%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 38% 35%, rgba(255, 255, 255, 0.3), transparent 38%),
+    linear-gradient(90deg, transparent, rgba(173, 137, 83, 0.26), transparent);
+  filter: blur(6px);
+  transform: scaleY(0.34);
+}
+
+.plant-sprig {
+  position: absolute;
+  bottom: 14%;
+  left: 3%;
+  width: 12rem;
+  height: 19rem;
+  transform-origin: 50% 100%;
+}
+
+.plant-stem {
+  position: absolute;
+  bottom: 0;
+  left: 48%;
+  width: 2px;
+  height: 96%;
+  background: linear-gradient(180deg, #486024, #1d260f);
+  transform: rotate(-16deg);
+  transform-origin: 50% 100%;
+}
+
+.plant-leaf,
+.plant-bud {
+  position: absolute;
+  display: block;
+}
+
+.plant-leaf {
+  width: 2.7rem;
+  height: 1.34rem;
+  border-radius: 100% 0 100% 0;
+  background: linear-gradient(135deg, #5f7a31, #1f2e13);
+  transform-origin: 0 50%;
+  box-shadow: inset 0 1px 5px rgba(255, 255, 255, 0.14);
+}
+
+.plant-leaf-1 { bottom: 21%; left: 31%; transform: rotate(-158deg); }
+.plant-leaf-2 { bottom: 32%; left: 42%; transform: rotate(24deg); }
+.plant-leaf-3 { bottom: 43%; left: 25%; transform: rotate(-152deg); }
+.plant-leaf-4 { bottom: 54%; left: 43%; transform: rotate(18deg); }
+.plant-leaf-5 { bottom: 65%; left: 29%; transform: rotate(-144deg); }
+.plant-leaf-6 { bottom: 74%; left: 47%; transform: rotate(15deg); }
+.plant-leaf-7 { bottom: 84%; left: 34%; transform: rotate(-145deg) scale(0.84); }
+.plant-leaf-8 { bottom: 91%; left: 48%; transform: rotate(17deg) scale(0.72); }
+
+.plant-bud {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #c89b4d;
+  box-shadow: 0 0 0 3px rgba(100, 80, 30, 0.2);
+}
+
+.plant-bud-one {
+  top: 7%;
+  right: 20%;
+}
+
+.plant-bud-two {
+  top: 15%;
+  right: 30%;
+}
+
+.product-row {
+  overflow: hidden;
+}
+
+.product-services {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.72rem;
+  margin-top: 1.7rem;
+  padding-top: 1.1rem;
+  color: rgba(46, 34, 23, 0.7);
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+}
+
+.product-services svg {
+  color: rgba(184, 138, 67, 0.9);
+  flex: 0 0 auto;
+}
+
+.final-photo-layer {
+  position: absolute;
+  inset: -7% 0 -8%;
+  z-index: -1;
+  overflow: hidden;
+  opacity: 0.9;
+  will-change: transform;
+}
+
+.final-photo-layer::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(circle at 50% 44%, rgba(16, 10, 6, 0.1), transparent 36%),
+    linear-gradient(180deg, rgba(15, 9, 5, 0.08), rgba(15, 9, 5, 0.46));
+}
+
+.final-photo {
+  object-fit: cover;
+  object-position: center center;
+  filter: saturate(1.02) contrast(1.03);
+}
+
+.final-caustics {
+  opacity: 0.46;
+  background:
+    repeating-radial-gradient(ellipse at 70% 70%, rgba(229, 181, 91, 0.24) 0 2px, transparent 2px 22px),
+    radial-gradient(ellipse at 78% 72%, rgba(230, 169, 70, 0.32), transparent 38%);
+  filter: blur(0.6px);
+  animation: causticMove 9s ease-in-out infinite;
+}
+
+@keyframes dustFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.08;
+  }
+  50% {
+    transform: translate3d(16px, -24px, 0);
+    opacity: 0.26;
+  }
+}
+
+@keyframes beamBreath {
+  0%, 100% {
+    opacity: 0.55;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.82;
+    transform: translate3d(2%, -1%, 0);
+  }
+}
+
+@keyframes sunlightDrift {
+  0%, 100% {
+    opacity: 0.42;
+    transform: translate3d(-1.5%, -1%, 0) scale(1);
+  }
+  48% {
+    opacity: 0.72;
+    transform: translate3d(2%, 1%, 0) scale(1.04);
+  }
+}
+
+@keyframes glintTravel {
+  0%, 28%, 100% {
+    opacity: 0;
+    transform: translateX(-28%);
+  }
+  48% {
+    opacity: 0.52;
+    transform: translateX(8%);
+  }
+  64% {
+    opacity: 0;
+    transform: translateX(22%);
+  }
+}
+
+@keyframes capSweep {
+  0%, 34%, 100% {
+    transform: rotate(10deg) translateX(-130%);
+    opacity: 0;
+  }
+  52% {
+    transform: rotate(10deg) translateX(28%);
+    opacity: 0.72;
+  }
+}
+
+@keyframes glassShimmer {
+  0%, 42%, 100% {
+    transform: skewX(-12deg) translateX(-145%);
+    opacity: 0;
+  }
+  58% {
+    transform: skewX(-12deg) translateX(250%);
+    opacity: 0.55;
+  }
+}
+
+@keyframes liquidBreath {
+  0%, 100% {
+    opacity: 0.52;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.76;
+    transform: translate3d(2px, -3px, 0) scale(1.03);
+  }
+}
+
+@keyframes mossSway {
+  0%, 100% {
+    transform: rotate(-1.2deg) translateZ(0);
+  }
+  50% {
+    transform: rotate(2deg) translateZ(0);
+  }
+}
+
+@keyframes causticMove {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+    opacity: 0.48;
+  }
+  50% {
+    transform: translate3d(10px, -8px, 0) rotate(2deg) scale(1.04);
+    opacity: 0.74;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-stage {
+    height: 54%;
+  }
+
+  .hero-photo {
+    object-position: 72% bottom;
+  }
+
+  .product-bottle-large {
+    left: 40%;
+  }
+
+  .product-bottle-small {
+    right: 13%;
+  }
+
+  .plant-sprig {
+    left: -2%;
+    transform: scale(0.88);
+  }
+}
+
+@media (min-width: 1440px) {
+  .experience-nav {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .scroll-cue {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 767px) {
+  .lp-shell::before {
+    opacity: 0.075;
+    background-size: 52px 52px, 52px 52px;
+  }
+
+  .dust-field {
+    opacity: 0.75;
+  }
+
+  .scroll-cue {
+    right: 1.35rem;
+    bottom: 1.1rem;
+    display: inline-flex;
+    transform: scale(0.9);
+    transform-origin: 100% 100%;
+  }
+
+  .scroll-cue i {
+    height: 2.6rem;
+  }
+
+  .hero-photo-layer {
+    top: auto;
+    right: -36%;
+    bottom: 0;
+    left: -80%;
+    height: 48%;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 100%);
+  }
+
+  .hero-photo-layer::before {
+    background:
+      linear-gradient(180deg, transparent 0%, rgba(18, 9, 4, 0.12) 46%, rgba(18, 9, 4, 0.58) 100%),
+      linear-gradient(90deg, rgba(18, 9, 4, 0.24), transparent 42%, rgba(18, 9, 4, 0.1));
+  }
+
+  .hero-moss-depth {
+    height: 14%;
+  }
+
+  .sunlight-shafts {
+    opacity: 0.5;
+    background:
+      linear-gradient(118deg, transparent 42%, rgba(255, 226, 166, 0.13) 57%, transparent 70%);
+  }
+
+  .hero-glass-glint {
+    display: none;
+  }
+
+  .perfume-bottle-hero {
+    --bottle-width: min(15.8rem, 64vw);
+  }
+
+  .concept-photo-panel {
+    min-height: 18rem;
+  }
+
+  .concept-photo {
+    object-position: 58% center;
+  }
+
+  .story-photo-motion {
+    inset: -4% -18%;
+  }
+
+  .story-photo {
+    object-position: 67% center;
+  }
+
+  .notes-trail-word {
+    top: 44%;
+    font-size: 4.9rem;
+    letter-spacing: 0.07em;
+    white-space: normal;
+  }
+
+  .driftwood {
+    clip-path: polygon(0 60%, 14% 44%, 31% 42%, 47% 51%, 66% 42%, 100% 45%, 100% 68%, 74% 78%, 48% 74%, 23% 79%, 0 72%);
+  }
+
+  .concept-rock-back {
+    right: -18%;
+    width: 64%;
+  }
+
+  .concept-rock-front {
+    right: 15%;
+    width: 62%;
+  }
+
+  .seed-branch {
+    left: 40%;
+    height: 17rem;
+  }
+
+  .story-visual {
+    min-height: 20rem;
+  }
+
+  .product-services {
+    display: flex;
+    align-items: flex-start;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+
+  .product-photo-scene {
+    min-height: 25rem;
+  }
+
+  .product-photo {
+    object-position: 28% center;
+  }
+
+  .story-wood-close {
+    width: 62%;
+  }
+
+  .product-bottle-large {
+    left: 39%;
+    bottom: 13%;
+  }
+
+  .product-bottle-small {
+    right: 6%;
+    bottom: 15%;
+  }
+
+  .plant-sprig {
+    left: -8%;
+    bottom: 10%;
+    transform: scale(0.74);
+  }
+
+  .luxury-button {
+    width: min(100%, 18rem);
+  }
+}
+
+@media (max-width: 479px) {
+  .perfume-bottle-detail {
+    --bottle-width: 14.4rem;
+  }
+
+  .perfume-bottle-mini {
+    --bottle-width: 6.6rem;
+  }
+
+  .product-bottle-large {
+    left: 37%;
+  }
+
+  .product-bottle-small {
+    right: 1%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
