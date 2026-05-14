@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BAL D'AFRIQUE | Sun-warmed memory",
+  title: "SOLAR MOSS | Sunlit botanical accord",
   description:
-    "太陽の余韻、アンバーのぬくもり。肌に静かに残る、旅の記憶をたどるインタラクティブLP。"
+    "太陽の余韻、苔とアンバーのぬくもり。肌に静かに残る、架空のボタニカルフレグランスLP。"
 };
 
 export default function RootLayout({

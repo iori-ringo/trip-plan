@@ -14,7 +14,15 @@ import {
 } from "framer-motion";
 import { DropHalfBottom } from "@phosphor-icons/react";
 
-const softEase = [0.22, 1, 0.36, 1] as const;
+const softEase = [0.236, 0.618, 0.382, 1] as const;
+const phiDuration = {
+  sm: 0.1,
+  md: 0.162,
+  lg: 0.262,
+  xl: 0.424,
+  "2xl": 0.685,
+  "3xl": 1.109
+} as const;
 
 const reveal = {
   hidden: { opacity: 0, y: 26, filter: "blur(8px)" },
@@ -25,7 +33,7 @@ const revealGroup = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.16
+      staggerChildren: phiDuration.md
     }
   }
 };
@@ -43,7 +51,7 @@ const storyLines = [
   "光や空気の記憶。",
   "乾いた木肌、やわらかな熱、",
   "そして肌になじむ静かな余韻。",
-  "BAL D’AFRIQUEは、自然の温度と",
+  "SOLAR MOSSは、自然の温度と",
   "洗練が溶け合う、個人的で美しい",
   "ストーリーをまとわせます。"
 ];
@@ -74,11 +82,11 @@ const noteCards: Array<{
 ];
 
 const productRows = [
-  ["Product", "BYREDO BAL D’AFRIQUE"],
+  ["Product", "AURELIA NOON SOLAR MOSS"],
   ["Type", "Eau de Parfum"],
   ["Size", "50ml / 100ml"],
-  ["Price", "from ¥26,070"],
-  ["Features", "Amber / Woody / Warm / Luminous"]
+  ["Price", "from ¥18,400"],
+  ["Features", "Moss / Amber / Cedar / Warm Light"]
 ];
 
 const navigationItems = [
@@ -91,11 +99,11 @@ const navigationItems = [
 ];
 
 const assets = {
-  hero: "/assets/fragrance/hero-scene-wide-labeled.png",
-  concept: "/assets/fragrance/concept-materials.png",
-  story: "/assets/fragrance/story-caustics.png",
-  product: "/assets/fragrance/product-bottles-labeled.png",
-  final: "/assets/fragrance/final-moss-light.png"
+  hero: "/assets/fragrance/solar-moss-hero.png",
+  concept: "/assets/fragrance/solar-moss-concept.png",
+  story: "/assets/fragrance/solar-moss-story.png",
+  product: "/assets/fragrance/solar-moss-product.png",
+  final: "/assets/fragrance/solar-moss-final.png"
 };
 
 export function FragranceLanding() {
@@ -104,6 +112,7 @@ export function FragranceLanding() {
       <PageProgress />
       <ExperienceNav />
       <DustField />
+      <CursorGlow />
       <HeroSection />
       <ConceptSection />
       <FragranceNotesSection />
@@ -111,6 +120,64 @@ export function FragranceLanding() {
       <ProductDetailSection />
       <FinalCtaSection />
     </main>
+  );
+}
+
+function CursorGlow() {
+  const shouldReduceMotion = useReducedMotion();
+  const x = useMotionValue(-420);
+  const y = useMotionValue(-420);
+  const opacity = useMotionValue(0);
+  const springX = useSpring(x, {
+    stiffness: shouldReduceMotion ? 900 : 150,
+    damping: shouldReduceMotion ? 90 : 28,
+    mass: 0.24
+  });
+  const springY = useSpring(y, {
+    stiffness: shouldReduceMotion ? 900 : 150,
+    damping: shouldReduceMotion ? 90 : 28,
+    mass: 0.24
+  });
+  const springOpacity = useSpring(opacity, {
+    stiffness: 180,
+    damping: 26,
+    mass: 0.2
+  });
+
+  useEffect(() => {
+    const cursorQuery = window.matchMedia("(pointer: coarse)");
+
+    if (cursorQuery.matches) {
+      return undefined;
+    }
+
+    function handlePointerMove(event: globalThis.PointerEvent) {
+      x.set(event.clientX - 190);
+      y.set(event.clientY - 190);
+      opacity.set(1);
+    }
+
+    function handlePointerLeave() {
+      opacity.set(0);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("blur", handlePointerLeave);
+    document.documentElement.addEventListener("mouseleave", handlePointerLeave);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("blur", handlePointerLeave);
+      document.documentElement.removeEventListener("mouseleave", handlePointerLeave);
+    };
+  }, [opacity, x, y]);
+
+  return (
+    <motion.div
+      aria-hidden="true"
+      className="cursor-glow"
+      style={{ opacity: springOpacity, x: springX, y: springY }}
+    />
   );
 }
 
@@ -133,7 +200,7 @@ function HeroSection() {
   const sceneScale = useTransform(
     smoothProgress,
     [0, 1],
-    shouldReduceMotion ? [1, 1] : [1.08, 1]
+    shouldReduceMotion ? [1, 1] : [1.025, 1.008]
   );
   const textY = useTransform(
     smoothProgress,
@@ -144,16 +211,6 @@ function HeroSection() {
   const glowX = useTransform(pointerX, [0, 1], ["46%", "90%"]);
   const glowY = useTransform(pointerY, [0, 1], ["4%", "36%"]);
   const interactiveGlow = useMotionTemplate`radial-gradient(circle at ${glowX} ${glowY}, rgba(242, 177, 93, 0.35), transparent 36%)`;
-  const bottleRotateX = useTransform(
-    pointerY,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [1.4, -1.4]
-  );
-  const bottleRotateY = useTransform(
-    pointerX,
-    [0, 1],
-    shouldReduceMotion ? [0, 0] : [-2.2, 2.2]
-  );
 
   function handlePointerMove(event: PointerEvent<HTMLElement>) {
     if (shouldReduceMotion) {
@@ -180,14 +237,14 @@ function HeroSection() {
       />
       <motion.div
         aria-hidden="true"
-        className="hero-sun pointer-events-none absolute -right-[10%] -top-[20%] h-[62rem] w-[62rem] rounded-full"
+        className="hero-sun pointer-events-none absolute -right-[10%] -top-[20%] h-phi-8xl w-phi-8xl rounded-full"
         initial={{ opacity: 0, scale: 0.84 }}
         animate={
           shouldReduceMotion
             ? { opacity: 0.54, scale: 1 }
             : { opacity: [0.2, 0.64, 0.5], scale: [0.92, 1.04, 0.98] }
         }
-        transition={{ duration: 8.5, ease: "easeInOut", repeat: shouldReduceMotion ? 0 : Infinity }}
+        transition={{ duration: 6.854, ease: "easeInOut", repeat: shouldReduceMotion ? 0 : Infinity }}
       />
       <div aria-hidden="true" className="hero-beams absolute inset-0" />
       <div aria-hidden="true" className="sunlight-shafts absolute inset-0" />
@@ -196,48 +253,48 @@ function HeroSection() {
         className="hero-microcopy hidden lg:block"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.75, ease: softEase }}
+        transition={{ duration: phiDuration["2xl"], delay: phiDuration.xl, ease: softEase }}
       >
         <span>Eau de Parfum</span>
         <span>Amber / Woody / Luminous</span>
       </motion.div>
-      <div className="relative z-[1] mx-auto grid min-h-[100dvh] max-w-[1400px] grid-cols-1 px-6 pb-[22rem] pt-20 sm:px-10 sm:pb-[25rem] md:pt-24 lg:grid-cols-[0.88fr_1.12fr] lg:px-16 lg:pb-0">
+      <div className="relative z-[1] mx-auto grid min-h-[100dvh] max-w-phi-page grid-cols-1 px-phi-md pb-phi-6xl pt-phi-2xl md:px-phi-lg md:pt-phi-3xl lg:grid-cols-[minmax(0,0.618fr)_minmax(0,1fr)] lg:pb-0">
         <motion.div
-          className="max-w-[44rem] self-start pt-0 sm:pt-4 lg:pt-2"
+          className="max-w-phi-copy-lg self-start"
           style={{ y: textY }}
           variants={revealGroup}
           initial="hidden"
           animate="visible"
         >
           <motion.p
-            className="font-display text-xl text-[#dcb56d] sm:text-2xl"
+            className="font-display text-title3 leading-phi-half text-[#dcb56d]"
             variants={reveal}
-            transition={{ duration: 0.9, ease: softEase }}
+            transition={{ duration: phiDuration["2xl"], ease: softEase }}
           >
-            Sun-warmed memory
+            Sunlit botanical accord
           </motion.p>
           <motion.h1
-            className="mt-5 font-display text-5xl font-normal leading-none tracking-[0.065em] text-[#e7c78b] sm:text-6xl md:text-7xl lg:whitespace-nowrap xl:text-8xl"
+            className="mt-phi-sm font-display text-display2 font-normal leading-phi-quarter tracking-normal text-[#e7c78b] md:text-display1 lg:whitespace-nowrap"
             variants={reveal}
-            transition={{ duration: 1.05, ease: softEase }}
+            transition={{ duration: phiDuration["3xl"], ease: softEase }}
           >
-            BAL D’AFRIQUE
+            SOLAR MOSS
           </motion.h1>
           <motion.p
-            className="mt-8 font-serifjp text-xl leading-[1.95] tracking-[0.08em] text-[#e8cf9f] sm:text-2xl"
+            className="mt-phi-lg max-w-phi-prose font-serifjp text-body leading-phi tracking-normal text-[#e8cf9f] md:text-title3"
             variants={reveal}
-            transition={{ duration: 0.95, ease: softEase }}
+            transition={{ duration: phiDuration["2xl"], ease: softEase }}
           >
             太陽の余韻、アンバーのぬくもり。
             <br />
             肌に静かに残る、旅の記憶。
           </motion.p>
           <motion.div
-            className="mt-9"
+            className="mt-phi-xl"
             variants={reveal}
-            transition={{ duration: 0.9, ease: softEase }}
+            transition={{ duration: phiDuration["2xl"], ease: softEase }}
           >
-            <LuxuryButton href="#concept">Discover the Scent</LuxuryButton>
+            <LuxuryButton href="#concept">Discover the Accord</LuxuryButton>
           </motion.div>
         </motion.div>
       </div>
@@ -247,7 +304,7 @@ function HeroSection() {
         className="hero-photo-layer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1.35, delay: 0.2, ease: softEase }}
+        transition={{ duration: 1.618, delay: phiDuration.md, ease: softEase }}
       >
         <Image
           src={assets.hero}
@@ -259,15 +316,31 @@ function HeroSection() {
         />
         <motion.div
           className="hero-photo-zoom"
-          style={{ scale: sceneScale, rotateX: bottleRotateX, rotateY: bottleRotateY }}
+          style={{ scale: sceneScale }}
         >
-          <Image
-            src={assets.hero}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="hero-photo"
+          <motion.div
+            className="hero-photo-ambient"
+            animate={
+              shouldReduceMotion
+                ? undefined
+                : { scale: [1, 1.006, 1] }
+            }
+            transition={{ duration: 13.708, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src={assets.hero}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="hero-photo"
+            />
+          </motion.div>
+          <motion.span
+            aria-hidden="true"
+            className="hero-photo-sheen"
+            animate={shouldReduceMotion ? undefined : { x: ["-10%", "14%", "-10%"], opacity: [0, 0.26, 0] }}
+            transition={{ duration: 12.944, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
       </motion.div>
@@ -291,51 +364,64 @@ function ConceptSection() {
   );
   const backgroundLight = useMotionTemplate`radial-gradient(circle at ${lightX} 24%, rgba(221, 178, 113, 0.32), transparent 32%)`;
   const nearY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [32, -28]);
+  const materialX = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [-16, 14]);
+  const materialScale = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [1, 1] : [1.08, 1.03]);
 
   return (
     <section
       ref={sectionRef}
       id="concept"
       data-nav-tone="light"
-      className="relative isolate overflow-hidden bg-[#eee6d7] px-6 py-16 text-[#1e160e] sm:px-10 md:py-20 lg:px-16"
+      className="relative isolate overflow-hidden bg-[#eee6d7] px-phi-md py-phi-xl text-[#1e160e] md:px-phi-lg md:py-phi-2xl lg:py-phi-3xl"
     >
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 opacity-80"
         style={{ backgroundImage: backgroundLight }}
       />
-      <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+      <div className="relative mx-auto grid max-w-phi-page grid-cols-1 gap-phi-xl lg:grid-cols-[minmax(0,0.618fr)_minmax(0,1fr)] lg:items-center lg:gap-phi-2xl">
         <motion.div
           variants={revealGroup}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.35 }}
-          className="max-w-[34rem]"
+          className="max-w-phi-prose"
         >
           <SectionHeading label="Concept" tone="dark" />
-          <RevealedLines lines={conceptLines} className="mt-8 font-serifjp text-lg leading-[2.05] tracking-[0.08em] sm:text-xl" />
+          <RevealedLines lines={conceptLines} className="mt-phi-lg max-w-phi-prose font-serifjp text-body leading-phi tracking-normal md:text-title3" />
         </motion.div>
         <motion.div
-          className="photo-panel concept-photo-panel min-h-[22rem] overflow-hidden lg:min-h-[24rem]"
+          className="photo-panel concept-photo-panel min-h-phi-5xl overflow-hidden lg:min-h-phi-6xl"
           initial={{ opacity: 0, y: 34, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 1, ease: softEase }}
+          transition={{ duration: phiDuration["3xl"], ease: softEase }}
           style={{ y: nearY }}
         >
-          <Image
-            src={assets.concept}
-            alt="流木、石、枝、若芽を柔らかな光で撮影した自然素材"
-            fill
-            sizes="(min-width: 1024px) 58vw, 100vw"
-            className="photo-panel-image concept-photo"
+          <motion.div
+            className="photo-motion-fill concept-photo-motion"
+            style={{ x: materialX, scale: materialScale }}
+          >
+            <Image
+              src={assets.concept}
+              alt="流木、石、枝、若芽を柔らかな光で撮影した自然素材"
+              fill
+              sizes="(min-width: 1024px) 58vw, 100vw"
+              className="photo-panel-image concept-photo"
+            />
+          </motion.div>
+          <motion.span
+            aria-hidden="true"
+            className="concept-photo-glint"
+            animate={shouldReduceMotion ? undefined : { x: ["-28%", "18%", "-28%"], opacity: [0, 0.46, 0] }}
+            transition={{ duration: 7.854, repeat: Infinity, ease: "easeInOut" }}
           />
           <div aria-hidden="true" className="concept-scent-orbit concept-scent-orbit-one" />
           <div aria-hidden="true" className="concept-scent-orbit concept-scent-orbit-two" />
           <motion.div
             className="concept-shadow"
             animate={shouldReduceMotion ? undefined : { opacity: [0.28, 0.42, 0.3], x: [-4, 6, -2] }}
-            transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 6.854, repeat: Infinity, ease: "easeInOut" }}
           />
         </motion.div>
       </div>
@@ -350,13 +436,13 @@ function FragranceNotesSection() {
     <section
       id="notes"
       data-nav-tone="dark"
-      className="relative isolate overflow-hidden bg-[linear-gradient(112deg,#0f1a12_0%,#172314_48%,#10180f_100%)] px-6 py-16 sm:px-10 md:py-20 lg:px-16"
+      className="relative isolate overflow-hidden bg-[linear-gradient(112deg,#0f1a12_0%,#172314_48%,#10180f_100%)] px-phi-md py-phi-xl md:px-phi-lg md:py-phi-2xl lg:py-phi-3xl"
     >
       <motion.div
         aria-hidden="true"
         className="absolute inset-0 opacity-50"
         animate={shouldReduceMotion ? undefined : { x: ["-8%", "8%", "-6%"] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 11.089, repeat: Infinity, ease: "easeInOut" }}
         style={{
           background:
             "linear-gradient(105deg, transparent 14%, rgba(205, 149, 66, 0.16) 44%, transparent 70%)"
@@ -366,11 +452,11 @@ function FragranceNotesSection() {
         aria-hidden="true"
         className="notes-trail-word"
         animate={shouldReduceMotion ? undefined : { x: ["-2%", "3%", "-1%"] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 17.944, repeat: Infinity, ease: "easeInOut" }}
       >
         TOP · HEART · BASE
       </motion.div>
-      <div className="relative mx-auto max-w-[1240px]">
+      <div className="relative mx-auto max-w-phi-page">
         <motion.div
           className="text-center"
           variants={revealGroup}
@@ -381,7 +467,7 @@ function FragranceNotesSection() {
           <SectionHeading label="Fragrance Notes" align="center" />
         </motion.div>
         <motion.div
-          className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-3 lg:gap-6"
+          className="mt-phi-xl grid grid-cols-1 gap-phi-md md:grid-cols-3 lg:gap-phi-lg"
           variants={revealGroup}
           initial="hidden"
           whileInView="visible"
@@ -405,31 +491,33 @@ function StorySection() {
   });
   const zoom = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [1, 1] : [1, 1.12]);
   const drift = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [26, -24]);
+  const driftX = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [-14, 16]);
+  const imageRotate = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [-0.8, 0.8]);
 
   return (
     <section
       ref={sectionRef}
       id="story"
       data-nav-tone="light"
-      className="relative isolate overflow-hidden bg-[#efe8dc] px-6 py-16 text-[#20170f] sm:px-10 md:py-20 lg:px-16"
+      className="relative isolate overflow-hidden bg-[#efe8dc] px-phi-md py-phi-xl text-[#20170f] md:px-phi-lg md:py-phi-2xl lg:py-phi-3xl"
     >
-      <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 gap-12 lg:grid-cols-[0.58fr_1.42fr] lg:items-center">
+      <div className="relative mx-auto grid max-w-phi-page grid-cols-1 gap-phi-xl lg:grid-cols-[minmax(0,0.618fr)_minmax(0,1fr)] lg:items-center lg:gap-phi-2xl">
         <motion.div
           variants={revealGroup}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.36 }}
-          className="max-w-[32rem]"
+          className="max-w-phi-prose"
         >
           <SectionHeading label="Story" tone="dark" />
-          <RevealedLines lines={storyLines} className="mt-8 font-serifjp text-lg leading-[2.05] tracking-[0.08em] sm:text-xl" />
+          <RevealedLines lines={storyLines} className="mt-phi-lg max-w-phi-prose font-serifjp text-body leading-phi tracking-normal md:text-title3" />
         </motion.div>
         <motion.div
-          className="story-visual photo-panel min-h-[25rem] overflow-hidden"
+          className="story-visual photo-panel min-h-phi-6xl overflow-hidden"
           data-nav-tone="dark"
           style={{ scale: zoom }}
         >
-          <motion.div className="story-photo-motion" style={{ y: drift }}>
+          <motion.div className="story-photo-motion" style={{ x: driftX, y: drift, rotate: imageRotate }}>
             <Image
               src={assets.story}
               alt="アンバーのガラス反射と流木のクローズアップ"
@@ -441,6 +529,12 @@ function StorySection() {
           <span className="caustic caustic-one" />
           <span className="caustic caustic-two" />
           <span className="caustic caustic-three" />
+          <motion.span
+            aria-hidden="true"
+            className="story-light-ribbon"
+            animate={shouldReduceMotion ? undefined : { x: ["-22%", "16%", "-22%"], opacity: [0.12, 0.4, 0.16] }}
+            transition={{ duration: 9.236, repeat: Infinity, ease: "easeInOut" }}
+          />
           <div className="story-amber-haze" />
         </motion.div>
       </div>
@@ -456,29 +550,64 @@ function ProductDetailSection() {
     offset: ["start end", "end start"]
   });
   const bottleY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [28, -30]);
+  const pointerX = useMotionValue(0.5);
+  const pointerY = useMotionValue(0.5);
+  const productImageX = useTransform(pointerX, [0, 1], shouldReduceMotion ? [0, 0] : [-12, 12]);
+  const productImageY = useTransform(pointerY, [0, 1], shouldReduceMotion ? [0, 0] : [8, -8]);
+  const productLightX = useTransform(pointerX, [0, 1], ["28%", "74%"]);
+  const productLightY = useTransform(pointerY, [0, 1], ["20%", "68%"]);
+  const productInteractiveLight = useMotionTemplate`radial-gradient(circle at ${productLightX} ${productLightY}, rgba(226, 180, 104, 0.34), transparent 34%)`;
+
+  function handleProductPointerMove(event: PointerEvent<HTMLElement>) {
+    if (shouldReduceMotion) {
+      return;
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointerX.set((event.clientX - rect.left) / rect.width);
+    pointerY.set((event.clientY - rect.top) / rect.height);
+  }
+
+  function handleProductPointerLeave() {
+    pointerX.set(0.5);
+    pointerY.set(0.5);
+  }
 
   return (
     <section
       id="product-detail"
       ref={sectionRef}
       data-nav-tone="light"
-      className="relative isolate overflow-hidden bg-[#f2eadf] px-6 py-16 text-[#21170f] sm:px-10 md:py-20 lg:px-16"
+      className="relative isolate overflow-hidden bg-[#f2eadf] px-phi-md py-phi-xl text-[#21170f] md:px-phi-lg md:py-phi-2xl lg:py-phi-3xl"
     >
-      <div className="relative mx-auto grid max-w-[1400px] grid-cols-1 gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
+      <div className="relative mx-auto grid max-w-phi-page grid-cols-1 gap-phi-xl lg:grid-cols-[minmax(0,1fr)_minmax(0,0.618fr)] lg:items-center lg:gap-phi-2xl">
         <motion.div
-          className="product-scene product-photo-scene min-h-[25rem]"
+          className="product-scene product-photo-scene min-h-phi-6xl"
           style={{ y: bottleY }}
+          onPointerMove={handleProductPointerMove}
+          onPointerLeave={handleProductPointerLeave}
           whileHover={shouldReduceMotion ? undefined : { scale: 1.012 }}
           transition={{ type: "spring", stiffness: 110, damping: 22 }}
         >
-          <Image
-            src={assets.product}
-            alt="大小の香水瓶と植物を柔らかな自然光で撮影した商品写真"
-            fill
-            loading="eager"
-            sizes="(min-width: 1024px) 48vw, 100vw"
-            className="product-photo"
+          <motion.div className="product-photo-motion" style={{ x: productImageX, y: productImageY }}>
+            <div className="product-photo-breathe">
+              <Image
+                src={assets.product}
+                alt="大小の香水瓶と植物を柔らかな自然光で撮影した商品写真"
+                fill
+                loading="eager"
+                sizes="(min-width: 1024px) 48vw, 100vw"
+                className="product-photo"
+              />
+            </div>
+          </motion.div>
+          <motion.div
+            aria-hidden="true"
+            className="product-interactive-light"
+            style={{ backgroundImage: productInteractiveLight }}
           />
+          <span aria-hidden="true" className="product-scent-ring product-scent-ring-one" />
+          <span aria-hidden="true" className="product-scent-ring product-scent-ring-two" />
           <div className="product-reflection" />
         </motion.div>
         <motion.div
@@ -486,16 +615,16 @@ function ProductDetailSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.35 }}
-          className="lg:pl-4"
+          className="lg:pl-phi-md"
         >
           <SectionHeading label="Product Detail" tone="dark" />
-          <div className="mt-8 divide-y divide-[#7a6a56]/35">
+          <div className="mt-phi-lg divide-y divide-[#7a6a56]/35">
             {productRows.map(([label, value], index) => (
               <motion.div
                 key={label}
-                className="product-row relative grid grid-cols-[6.5rem_1fr] gap-5 py-4 text-sm sm:grid-cols-[8rem_1fr] sm:text-base"
+                className="product-row relative grid grid-cols-[6.854rem_1fr] gap-phi-md py-phi-sm text-subheading leading-phi-half sm:grid-cols-[11.089rem_1fr] sm:text-body"
                 variants={reveal}
-                transition={{ duration: 0.72, delay: index * 0.04, ease: softEase }}
+                transition={{ duration: phiDuration["2xl"], delay: index * (phiDuration.sm / 2), ease: softEase }}
               >
                 <span className="font-semibold text-[#16100b]">{label}</span>
                 <span className="text-[#392919]">{value}</span>
@@ -505,7 +634,7 @@ function ProductDetailSection() {
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.92, delay: 0.12 + index * 0.08, ease: softEase }}
+                  transition={{ duration: phiDuration["3xl"], delay: phiDuration.md + index * phiDuration.sm, ease: softEase }}
                 />
               </motion.div>
             ))}
@@ -513,7 +642,7 @@ function ProductDetailSection() {
           <motion.div
             className="product-services"
             variants={reveal}
-            transition={{ duration: 0.78, delay: 0.16, ease: softEase }}
+            transition={{ duration: phiDuration["2xl"], delay: phiDuration.md, ease: softEase }}
           >
             <DropHalfBottom size={22} weight="thin" />
             <span>Try the scent first. Free returns within 30 days.</span>
@@ -532,6 +661,8 @@ function FinalCtaSection() {
     offset: ["start end", "end start"]
   });
   const mossY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [42, -46]);
+  const mossScale = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [1, 1] : [1.1, 1.02]);
+  const mossRotate = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [-0.8, 0.6]);
   const lightX = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? ["58%", "58%"] : ["42%", "74%"]);
   const flowingLight = useMotionTemplate`radial-gradient(circle at ${lightX} 56%, rgba(214, 164, 81, 0.32), transparent 34%)`;
 
@@ -540,7 +671,7 @@ function FinalCtaSection() {
       ref={sectionRef}
       id="final-cta"
       data-nav-tone="dark"
-      className="relative isolate overflow-hidden bg-[linear-gradient(115deg,#100b07_0%,#1e1209_48%,#4c2c13_100%)] px-6 py-20 text-center sm:px-10 md:py-24 lg:px-16"
+      className="relative isolate overflow-hidden bg-[linear-gradient(115deg,#100b07_0%,#1e1209_48%,#4c2c13_100%)] px-phi-md py-phi-2xl text-center md:px-phi-lg md:py-phi-3xl"
     >
       <motion.div
         aria-hidden="true"
@@ -552,26 +683,34 @@ function FinalCtaSection() {
         className="final-photo-layer"
         style={{ y: mossY }}
       >
-        <Image
-          src={assets.final}
-          alt=""
-          fill
-          sizes="100vw"
-          className="final-photo"
+        <motion.div className="final-photo-motion" style={{ scale: mossScale, rotate: mossRotate }}>
+          <Image
+            src={assets.final}
+            alt=""
+            fill
+            sizes="100vw"
+            className="final-photo"
+          />
+        </motion.div>
+        <motion.span
+          aria-hidden="true"
+          className="final-photo-sweep"
+          animate={shouldReduceMotion ? undefined : { x: ["-34%", "26%", "-34%"], opacity: [0, 0.5, 0] }}
+          transition={{ duration: 8.854, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
-      <div aria-hidden="true" className="final-caustics absolute bottom-0 right-0 h-full w-[58%]" />
+      <div aria-hidden="true" className="final-caustics absolute bottom-0 right-0 h-full w-[61.8%]" />
       <motion.div
-        className="relative mx-auto max-w-[62rem]"
+        className="relative mx-auto max-w-phi-page"
         variants={revealGroup}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.55 }}
       >
         <motion.h2
-          className="font-display text-5xl font-normal leading-[1.18] tracking-[0.035em] text-[#efe2c8] sm:text-6xl md:text-7xl"
+          className="font-display text-display2 font-normal leading-phi-quarter tracking-normal text-[#efe2c8] md:text-display1"
           variants={reveal}
-          transition={{ duration: 1, ease: softEase }}
+          transition={{ duration: phiDuration["3xl"], ease: softEase }}
         >
           A lingering warmth,
           <br />
@@ -579,18 +718,18 @@ function FinalCtaSection() {
         </motion.h2>
         <motion.div
           aria-hidden="true"
-          className="mx-auto mt-7 h-px w-16 bg-[#c99b50]"
+          className="mx-auto mt-phi-lg h-px w-phi-2xl bg-[#c99b50]"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: softEase }}
+          transition={{ duration: phiDuration["2xl"], ease: softEase }}
         />
         <motion.div
-          className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6"
+          className="mt-phi-xl flex flex-col items-center justify-center gap-phi-md sm:flex-row sm:gap-phi-lg"
           variants={reveal}
-          transition={{ duration: 0.9, ease: softEase }}
+          transition={{ duration: phiDuration["2xl"], ease: softEase }}
         >
-          <LuxuryButton href="#product-detail" variant="filled">Shop Now</LuxuryButton>
+          <LuxuryButton href="#product-detail" variant="filled">Reserve Sample</LuxuryButton>
           <LuxuryButton href="#notes">View Details</LuxuryButton>
         </motion.div>
       </motion.div>
@@ -700,13 +839,13 @@ function ScrollCue() {
       className="scroll-cue"
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, delay: 1.2, ease: softEase }}
+      transition={{ duration: phiDuration["2xl"], delay: phiDuration["3xl"], ease: softEase }}
     >
       <span>Scroll</span>
       <motion.i
         aria-hidden="true"
         animate={shouldReduceMotion ? undefined : { scaleY: [0.35, 1, 0.35], opacity: [0.45, 0.9, 0.45] }}
-        transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 2.618, repeat: Infinity, ease: "easeInOut" }}
       />
     </motion.a>
   );
@@ -727,10 +866,10 @@ function SectionHeading({
     <motion.div
       className={align === "center" ? "text-center" : "text-left"}
       variants={reveal}
-      transition={{ duration: 0.9, ease: softEase }}
+      transition={{ duration: phiDuration["2xl"], ease: softEase }}
     >
       <h2
-        className={`font-display text-5xl font-normal leading-none tracking-[0.02em] sm:text-6xl ${
+        className={`font-display text-title2 font-normal leading-phi-half tracking-normal md:text-display2 md:leading-phi-quarter ${
           tone === "dark" ? "text-[#20170f]" : "text-[#eee1c9]"
         }`}
       >
@@ -738,11 +877,11 @@ function SectionHeading({
       </h2>
       <motion.span
         aria-hidden="true"
-        className={`mt-5 block h-px w-16 origin-left ${lineClass} ${align === "center" ? "mx-auto" : ""}`}
+        className={`mt-phi-sm block h-px w-phi-2xl origin-left ${lineClass} ${align === "center" ? "mx-auto" : ""}`}
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.88, ease: softEase }}
+        transition={{ duration: phiDuration["2xl"], ease: softEase }}
       />
     </motion.div>
   );
@@ -761,7 +900,7 @@ function RevealedLines({
         <motion.p
           key={line}
           variants={reveal}
-          transition={{ duration: 0.82, ease: softEase }}
+          transition={{ duration: phiDuration["2xl"], ease: softEase }}
         >
           {line}
         </motion.p>
@@ -781,23 +920,23 @@ function NoteCard({
 
   return (
     <motion.article
-      className="note-card group relative min-h-[15rem] overflow-hidden px-7 py-9 text-center"
+      className="note-card group relative min-h-phi-5xl overflow-hidden p-phi-lg text-center"
       variants={reveal}
-      transition={{ duration: 0.82, delay: index * 0.08, ease: softEase }}
+      transition={{ duration: phiDuration["2xl"], delay: index * phiDuration.sm, ease: softEase }}
       whileHover={shouldReduceMotion ? undefined : { y: -4 }}
     >
-      <NoteBorder delay={index * 0.08} />
+      <NoteBorder delay={index * phiDuration.sm} />
       <motion.div
-        className="note-icon-shell mx-auto flex h-[5.6rem] w-[5.6rem] items-center justify-center"
+        className="note-icon-shell mx-auto flex h-phi-3xl w-phi-3xl items-center justify-center"
         animate={shouldReduceMotion ? undefined : { y: [0, -5, 0], rotate: index === 1 ? [0, 3, 0] : [0, -2, 0] }}
-        transition={{ duration: 5.5 + index, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 4.236 + index * phiDuration["2xl"], repeat: Infinity, ease: "easeInOut" }}
       >
         <RichNoteIcon kind={card.icon} />
       </motion.div>
-      <h3 className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-[#d6ad67]">
+      <h3 className="mt-phi-md text-label font-semibold uppercase leading-phi-tight tracking-normal text-[#d6ad67]">
         {card.title}
       </h3>
-      <p className="mx-auto mt-7 max-w-[16rem] text-base leading-[1.75] text-[#efe6d8]">
+      <p className="mx-auto mt-phi-md max-w-phi-card text-body leading-phi text-[#efe6d8]">
         {card.notes}
       </p>
     </motion.article>
@@ -909,7 +1048,7 @@ function BaseNotesIcon({ goldId }: { goldId: string }) {
 }
 
 function NoteBorder({ delay }: { delay: number }) {
-  const transition = { duration: 0.78, delay: 0.1 + delay, ease: softEase };
+  const transition = { duration: phiDuration["2xl"], delay: phiDuration.sm + delay, ease: softEase };
 
   return (
     <>
@@ -979,8 +1118,8 @@ function PerfumeBottle({ variant }: { variant: "hero" | "detail" | "mini" }) {
         <span className="liquid-glow" />
         <span className="amber-liquid" />
         <div className="bottle-label">
-          <span className="label-brand">BYREDO</span>
-          <span className="label-name">BAL D’AFRIQUE</span>
+          <span className="label-brand">AURELIA</span>
+          <span className="label-name">SOLAR MOSS</span>
           <span className="label-type">EAU DE PARFUM</span>
         </div>
         <span className="bottle-base" />

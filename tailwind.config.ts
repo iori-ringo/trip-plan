@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
 
+import goldenRatioPreset from "./styles/golden-ratio-preset";
+
 const config: Config = {
+  presets: [goldenRatioPreset],
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}"

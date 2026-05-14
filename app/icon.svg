@@ -1,0 +1,55 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#130B06"/>
+  <rect width="512" height="512" rx="112" fill="url(#ambient)"/>
+  <path d="M128 390C161 341 208 319 269 324C317 328 357 312 384 276" stroke="url(#mossLine)" stroke-width="30" stroke-linecap="round"/>
+  <path d="M178 168C178 128 210 96 250 96H263C303 96 336 128 336 168V352H178V168Z" fill="url(#glass)" stroke="url(#goldStroke)" stroke-width="10"/>
+  <path d="M206 184C206 159 226 139 251 139H262C287 139 308 159 308 184V211H206V184Z" fill="#090706"/>
+  <rect x="203" y="232" width="106" height="88" rx="4" fill="url(#label)" stroke="#D8B16C" stroke-opacity="0.32" stroke-width="3"/>
+  <path d="M226 276H286" stroke="#22160E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M239 294H273" stroke="#22160E" stroke-width="5" stroke-linecap="round"/>
+  <path d="M203 214C230 225 281 225 309 214" stroke="#F4D58E" stroke-opacity="0.72" stroke-width="9" stroke-linecap="round"/>
+  <path d="M202 345C231 355 282 355 310 345" stroke="#F7DFAD" stroke-opacity="0.62" stroke-width="8" stroke-linecap="round"/>
+  <path d="M320 122C358 83 407 76 443 100" stroke="url(#sunRay)" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="390" cy="119" r="50" fill="url(#sunGlow)"/>
+  <path d="M162 403C217 371 280 369 344 398" stroke="#2B3618" stroke-width="22" stroke-linecap="round"/>
+  <path d="M177 409C218 390 260 389 304 405" stroke="#A78335" stroke-opacity="0.42" stroke-width="8" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="ambient" cx="0" cy="0" r="1" gradientTransform="matrix(364 -352 352 364 395 85)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D78D3C" stop-opacity="0.74"/>
+      <stop offset="0.44" stop-color="#6D3A17" stop-opacity="0.58"/>
+      <stop offset="1" stop-color="#0D0805" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mossLine" x1="122" y1="360" x2="384" y2="276" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0D1408"/>
+      <stop offset="0.48" stop-color="#48511D"/>
+      <stop offset="1" stop-color="#9B7033"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="176" y1="102" x2="346" y2="349" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3D2" stop-opacity="0.5"/>
+      <stop offset="0.22" stop-color="#A4621F" stop-opacity="0.62"/>
+      <stop offset="0.62" stop-color="#C47D24" stop-opacity="0.74"/>
+      <stop offset="1" stop-color="#F6D68A" stop-opacity="0.32"/>
+    </linearGradient>
+    <linearGradient id="goldStroke" x1="183" y1="98" x2="342" y2="352" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF0BE"/>
+      <stop offset="0.36" stop-color="#C8923D"/>
+      <stop offset="0.72" stop-color="#6F4119"/>
+      <stop offset="1" stop-color="#F6D996"/>
+    </linearGradient>
+    <linearGradient id="label" x1="203" y1="232" x2="313" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6EAD2"/>
+      <stop offset="0.58" stop-color="#D8B88B"/>
+      <stop offset="1" stop-color="#E9D7B8"/>
+    </linearGradient>
+    <linearGradient id="sunRay" x1="314" y1="125" x2="447" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF0BF" stop-opacity="0.08"/>
+      <stop offset="0.55" stop-color="#E9B766" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#FFF1C0" stop-opacity="0.22"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="0" cy="0" r="1" gradientTransform="matrix(62 18 -18 62 377 110)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3C6" stop-opacity="0.58"/>
+      <stop offset="0.46" stop-color="#E8A24D" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#E8A24D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>
